@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <Import Project="..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>MasterAbp.Web</RootNamespace>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -36,20 +36,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="2.0.*" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MasterAbp.Application\MasterAbp.Application.csproj" />
     <ProjectReference Include="..\MasterAbp.HttpApi\MasterAbp.HttpApi.csproj" />
     <ProjectReference Include="..\MasterAbp.EntityFrameworkCore\MasterAbp.EntityFrameworkCore.csproj" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="7.0.2" />
-    <PackageReference Include="Volo.Abp.Swashbuckle" Version="7.0.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="7.0.2" />
-    <PackageReference Include="Volo.Abp.Identity.Web" Version="7.0.2" />
-    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="7.0.2" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="7.0.2" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Web" Version="7.0.2" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="6.0.2" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="6.0.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="6.0.2" />
+    <PackageReference Include="Volo.Abp.Identity.Web" Version="6.0.2" />
+    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="6.0.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="6.0.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Web" Version="6.0.2" />
   </ItemGroup>
 
 </Project>
