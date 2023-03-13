@@ -33,6 +33,19 @@ public class MasterAbpMenuContributor : IMenuContributor
                 order: 0
             )
         );
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                "ProductManagement",
+                l["Menu:ProductManagement"],
+                icon: "fas fa-shopping-cart"
+            ).AddItem(
+                new ApplicationMenuItem(
+                "ProductManagement.Products",
+                l["Menu:Products"],
+                url: "/Products"
+                )
+            )
+        );
 
         if (MultiTenancyConsts.IsEnabled)
         {
