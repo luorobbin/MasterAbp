@@ -22,6 +22,8 @@
 #endregion << 版 本 注 释 >>
 
 using MasterAbp.Categories;
+using MasterAbp.Options;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,15 +49,18 @@ namespace MasterAbp.Products
 
         #region <属性>
         private readonly IRepository<Product, Guid> _productRepository;
+        private readonly IOptions<AzureSmsServiceOptions> _options;
 
         #endregion <属性>
 
         #region <构造方法和析构方法>
         public ProductAppService(IRepository<Category,Guid> categoryRepository,
-            IRepository<Product, Guid> productRepository)
+            IRepository<Product, Guid> productRepository,
+            IOptions<AzureSmsServiceOptions> options)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
+            _options = options;
         }
 
         #endregion <构造方法和析构方法>

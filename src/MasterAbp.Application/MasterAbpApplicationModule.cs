@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Account;
+﻿using MasterAbp.Options;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -27,5 +29,8 @@ public class MasterAbpApplicationModule : AbpModule
         {
             options.AddMaps<MasterAbpApplicationModule>();
         });
+
+        var cofiguration = context.Services.GetConfiguration();
+        Configure<AzureSmsServiceOptions>(cofiguration.GetSection("AzureSmsServiceOptions"));
     }
 }
