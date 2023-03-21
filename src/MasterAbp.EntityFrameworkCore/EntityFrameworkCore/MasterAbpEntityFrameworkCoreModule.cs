@@ -50,5 +50,11 @@ public class MasterAbpEntityFrameworkCoreModule : AbpModule
             options.UseMySQL();
         });
 
+        Configure<AbpUnitOfWorkDefaultOptions>(options =>
+        {
+            options.Timeout = 300000; // 5 minutes
+        });
+
+
     }
 }

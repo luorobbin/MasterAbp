@@ -1,4 +1,5 @@
 ﻿using MasterAbp.Categories;
+using MasterAbp.Forms;
 using MasterAbp.Products;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -28,6 +29,8 @@ public class MasterAbpDbContext :
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+
+    public DbSet<Form> Forms { get; set; }
 
     #region Entities from the modules
 

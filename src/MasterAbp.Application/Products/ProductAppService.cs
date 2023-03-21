@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Linq;
 
 namespace MasterAbp.Products
 {
@@ -50,17 +51,20 @@ namespace MasterAbp.Products
         #region <属性>
         private readonly IRepository<Product, Guid> _productRepository;
         private readonly IOptions<AzureSmsServiceOptions> _options;
+        private readonly IAsyncQueryableExecuter _asyncExecuter;
 
         #endregion <属性>
 
         #region <构造方法和析构方法>
         public ProductAppService(IRepository<Category,Guid> categoryRepository,
             IRepository<Product, Guid> productRepository,
-            IOptions<AzureSmsServiceOptions> options)
+            IOptions<AzureSmsServiceOptions> options,
+            IAsyncQueryableExecuter asyncExecuter)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
             _options = options;
+            _asyncExecuter = asyncExecuter;
         }
 
         #endregion <构造方法和析构方法>
@@ -89,6 +93,10 @@ namespace MasterAbp.Products
         public async Task<ListResultDto<CategoryLookupDto>> GetCategoriesAsync()
         {
             var categories = await _categoryRepository.GetListAsync();
+
+            //var queryable = await _categoryRepository.GetQueryableAsync();
+            //var query = await AsyncExecuter.ToListAsync(queryable);
+
             return new ListResultDto<CategoryLookupDto>(ObjectMapper.Map<List<Category>, List<CategoryLookupDto>>(categories));
         }
 
