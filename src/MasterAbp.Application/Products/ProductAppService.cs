@@ -22,6 +22,7 @@
 #endregion << 版 本 注 释 >>
 
 using MasterAbp.Categories;
+using MasterAbp.Forms;
 using MasterAbp.Options;
 using Microsoft.Extensions.Options;
 using System;
@@ -52,19 +53,22 @@ namespace MasterAbp.Products
         private readonly IRepository<Product, Guid> _productRepository;
         private readonly IOptions<AzureSmsServiceOptions> _options;
         private readonly IAsyncQueryableExecuter _asyncExecuter;
+        private readonly IFormRepository _formRepository;
 
         #endregion <属性>
 
         #region <构造方法和析构方法>
-        public ProductAppService(IRepository<Category,Guid> categoryRepository,
+        public ProductAppService(IRepository<Category, Guid> categoryRepository,
             IRepository<Product, Guid> productRepository,
             IOptions<AzureSmsServiceOptions> options,
-            IAsyncQueryableExecuter asyncExecuter)
+            IAsyncQueryableExecuter asyncExecuter,
+            IFormRepository formRepository)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
             _options = options;
             _asyncExecuter = asyncExecuter;
+            _formRepository = formRepository;
         }
 
         #endregion <构造方法和析构方法>
@@ -114,6 +118,18 @@ namespace MasterAbp.Products
         public async Task DeleteAsync(Guid id)
         {
             await _productRepository.DeleteAsync(id);
+        }
+
+        public async Task EagerLoadDemoAsync(Guid formId)
+        {
+            var queryable = await _formRepository.WithDetailsAsync(f => f.Questions);
+            var query = queryable.Where(f => f.Id == formId);
+            var form = await
+            _asyncExecuter.FirstOrDefaultAsync(query);
+            foreach (var question in form.Questions)
+            {
+                //...
+            }
         }
 
         #endregion <方法>
