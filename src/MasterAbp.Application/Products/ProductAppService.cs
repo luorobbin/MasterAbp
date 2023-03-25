@@ -24,6 +24,7 @@
 using MasterAbp.Categories;
 using MasterAbp.Forms;
 using MasterAbp.Options;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,7 @@ namespace MasterAbp.Products
         private readonly IOptions<AzureSmsServiceOptions> _options;
         private readonly IAsyncQueryableExecuter _asyncExecuter;
         private readonly IFormRepository _formRepository;
+        private readonly IAuthorizationService _authorizationService;
 
         #endregion <属性>
 
@@ -62,13 +64,15 @@ namespace MasterAbp.Products
             IRepository<Product, Guid> productRepository,
             IOptions<AzureSmsServiceOptions> options,
             IAsyncQueryableExecuter asyncExecuter,
-            IFormRepository formRepository)
+            IFormRepository formRepository,
+            IAuthorizationService authorizationService)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
             _options = options;
             _asyncExecuter = asyncExecuter;
             _formRepository = formRepository;
+            _authorizationService = authorizationService;
         }
 
         #endregion <构造方法和析构方法>
@@ -117,7 +121,14 @@ namespace MasterAbp.Products
 
         public async Task DeleteAsync(Guid id)
         {
-            await _productRepository.DeleteAsync(id);
+            if (await _authorizationService.IsGrantedAnyAsync("ProductManagement.ProductDeletion"))
+            {
+                await _productRepository.DeleteAsync(id);
+            }
+            else
+            {
+                throw new Exception("没有权限！");
+            }
         }
 
         public async Task EagerLoadDemoAsync(Guid formId)

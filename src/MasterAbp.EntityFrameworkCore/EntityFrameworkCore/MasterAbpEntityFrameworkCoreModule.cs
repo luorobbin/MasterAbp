@@ -43,7 +43,7 @@ public class MasterAbpEntityFrameworkCoreModule : AbpModule
                  * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
 
-            options.AddRepository<Form,IFormRepository>();
+            options.AddRepository<Form,FormRepository>();
         });
 
         Configure<AbpDbContextOptions>(options =>
