@@ -14,11 +14,11 @@ public class Program
     {
         Log.Logger = new LoggerConfiguration()
 #if DEBUG
-            .MinimumLevel.Error()
+            .MinimumLevel.Warning()
 #else
             .MinimumLevel.Error()
 #endif
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
             .Enrich.FromLogContext()
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
