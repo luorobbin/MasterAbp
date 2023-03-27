@@ -57,6 +57,7 @@ namespace MasterAbp.Products
         private readonly IAsyncQueryableExecuter _asyncExecuter;
         private readonly IFormRepository _formRepository;
         private readonly IAuthorizationService _authorizationService;
+        private readonly ProductManage _productManage;
 
         #endregion <属性>
 
@@ -66,7 +67,8 @@ namespace MasterAbp.Products
             IOptions<AzureSmsServiceOptions> options,
             IAsyncQueryableExecuter asyncExecuter,
             IFormRepository formRepository,
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService,
+            ProductManage productManage)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
@@ -74,6 +76,7 @@ namespace MasterAbp.Products
             _asyncExecuter = asyncExecuter;
             _formRepository = formRepository;
             _authorizationService = authorizationService;
+            _productManage = productManage;
         }
 
         #endregion <构造方法和析构方法>
@@ -94,9 +97,15 @@ namespace MasterAbp.Products
             return new PagedResultDto<ProductDto>(count,ObjectMapper.Map<List<Product>, List<ProductDto>>(products));
         }
 
-        public async Task CreateAsync(CreateUpdateProductDto input)
+        public async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            await _productRepository.InsertAsync(ObjectMapper.Map<CreateUpdateProductDto, Product>(input));
+            //await _productRepository.InsertAsync(ObjectMapper.Map<CreateUpdateProductDto, Product>(input));
+
+            var product = await _productManage.CreateAsync(input.CategoryId, input.Name,input.Price,input.IsFreeCargo,input.ReleaseDate,input.StockState);
+
+            await _productRepository.InsertAsync(product);
+
+            return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
         public async Task<ListResultDto<CategoryLookupDto>> GetCategoriesAsync()

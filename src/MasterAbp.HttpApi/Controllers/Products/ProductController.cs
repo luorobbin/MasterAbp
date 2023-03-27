@@ -47,9 +47,9 @@ namespace MasterAbp.Controllers.Products
         }
 
         [Authorize("ProductManagement.ProductCreation")]
-        public async Task CreateAsync(CreateUpdateProductDto input)
+        public async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)
         {
-            await _productAppService.CreateAsync(input);
+           return await _productAppService.CreateAsync(input);
         }
 
         //[Authorize("ProductManagement.ProductDeletion")]

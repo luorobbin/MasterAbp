@@ -34,7 +34,7 @@ namespace MasterAbp.Products
         public ProductCreationDtoValidator()
         {
             RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
-            RuleFor(x => x.Price).ExclusiveBetween(0, 1000);
+            RuleFor(x => x.Price).ExclusiveBetween(0, 10000);
         }
     }
 }

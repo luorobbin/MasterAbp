@@ -13,5 +13,21 @@ namespace MasterAbp.Products
         public bool IsFreeCargo { get; set; }
         public DateTime ReleaseDate { get; set; }
         public ProductStockState StockState { get; set; }
+
+        public Product()
+        {            
+        }
+
+        public Product(Guid categoryId, string name, float price, bool isFreeCargo
+            , DateTime releaseDate, ProductStockState stockState)
+        {
+            CategoryId = categoryId;
+            Name = name;
+            Price = price;
+            IsFreeCargo = isFreeCargo;
+            ReleaseDate = releaseDate;
+            StockState = stockState;
+        }
+
     }
 }
