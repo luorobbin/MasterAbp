@@ -56,7 +56,7 @@ namespace MasterAbp.Products
         {
             if(await _productRepository.AnyAsync(p => p.Name == name))
             {
-                throw new BusinessException(MasterAbpDomainErrorCodes.ProductHasExisted);
+                throw new BusinessException(MasterAbpDomainErrorCodes.ProductHasExisted).WithData("Name",name);
             }
 
             return new Product(categoryId, name, price, isFreeCargo, releaseDate, stockState);
