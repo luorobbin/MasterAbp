@@ -37,6 +37,9 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Caching.StackExchangeRedis;
+using StackExchange.Redis;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace MasterAbp.Web;
 
@@ -51,7 +54,8 @@ namespace MasterAbp.Web;
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
     typeof(AbpTenantManagementWebModule),
     typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpSwashbuckleModule)
+    typeof(AbpSwashbuckleModule),
+    typeof(AbpCachingStackExchangeRedisModule)
     )]
 public class MasterAbpWebModule : AbpModule
 {
@@ -90,6 +94,7 @@ public class MasterAbpWebModule : AbpModule
         ConfigureBundles();
         ConfigureAutoMapper();
         ConfigureVirtualFileSystem(hostingEnvironment);
+        ConfigureRedis(context, configuration);
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
@@ -143,6 +148,13 @@ public class MasterAbpWebModule : AbpModule
                 options.FileSets.ReplaceEmbeddedByPhysical<MasterAbpWebModule>(hostingEnvironment.ContentRootPath);
             });
         }
+    }
+
+    private static void ConfigureRedis(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+        context.Services.AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, "MasterAbp-Protection-Keys");
     }
 
     private void ConfigureNavigationServices()

@@ -34,8 +34,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Linq;
+using Volo.Abp.Users;
 
 namespace MasterAbp.Products
 {
@@ -58,6 +60,7 @@ namespace MasterAbp.Products
         private readonly IFormRepository _formRepository;
         private readonly IAuthorizationService _authorizationService;
         private readonly ProductManage _productManage;
+        private readonly IDataFilter _dataFilter;
 
         #endregion <属性>
 
@@ -68,7 +71,8 @@ namespace MasterAbp.Products
             IAsyncQueryableExecuter asyncExecuter,
             IFormRepository formRepository,
             IAuthorizationService authorizationService,
-            ProductManage productManage)
+            ProductManage productManage,
+            IDataFilter dataFilter)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
@@ -77,6 +81,7 @@ namespace MasterAbp.Products
             _formRepository = formRepository;
             _authorizationService = authorizationService;
             _productManage = productManage;
+            _dataFilter = dataFilter;
         }
 
         #endregion <构造方法和析构方法>
@@ -84,17 +89,22 @@ namespace MasterAbp.Products
         #region <方法>
         public async Task<PagedResultDto<ProductDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
-            var queryable = await _productRepository.WithDetailsAsync(x => x.Category);
+            var userName = CurrentUser.Name;
 
-            queryable = queryable
-                        .Skip(input.SkipCount)
-                        .Take(input.MaxResultCount)
-                        .OrderBy(input.Sorting ?? nameof(Product.Name));
+            //禁用软删除过滤
+            using (_dataFilter.Disable<ISoftDelete>())
+            {
+                var queryable = await _productRepository.WithDetailsAsync(x => x.Category);
 
-            var products = await AsyncExecuter.ToListAsync(queryable);
-            var count = await _productRepository.GetCountAsync();
+                queryable = queryable
+                            .Skip(input.SkipCount)
+                            .Take(input.MaxResultCount)
+                            .OrderBy(input.Sorting ?? nameof(Product.Name));
 
-            return new PagedResultDto<ProductDto>(count,ObjectMapper.Map<List<Product>, List<ProductDto>>(products));
+                var products = await AsyncExecuter.ToListAsync(queryable);
+                var count = await _productRepository.GetCountAsync();
+                return new PagedResultDto<ProductDto>(count, ObjectMapper.Map<List<Product>, List<ProductDto>>(products));
+            }
         }
 
         public async Task<ProductDto> CreateAsync(CreateUpdateProductDto input)

@@ -1,7 +1,9 @@
 ﻿using MasterAbp.Options;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
+using Volo.Abp.Caching;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.FluentValidation;
 using Volo.Abp.Identity;
@@ -34,5 +36,10 @@ public class MasterAbpApplicationModule : AbpModule
 
         var cofiguration = context.Services.GetConfiguration();
         Configure<AzureSmsServiceOptions>(cofiguration.GetSection("AzureSmsServiceOptions"));
+
+        Configure<AbpDistributedCacheOptions>(options =>
+        {
+            options.GlobalCacheEntryOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+        });
     }
 }

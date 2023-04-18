@@ -2,6 +2,9 @@
 using MasterAbp.Forms;
 using MasterAbp.Products;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
+using System.Linq.Expressions;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -63,6 +66,30 @@ public class MasterAbpDbContext :
         : base(options)
     {
 
+    }
+
+    protected override bool ShouldFilterEntity<TEntity>(IMutableEntityType entityType)
+    {
+        // 过滤自定义字段
+        //if(typeof(IArchivable).IsAssignableFrom(typeof(TEntity)))
+        //{
+        //    return true;
+        //}
+
+        return base.ShouldFilterEntity<TEntity>(entityType);
+    }
+
+    protected override Expression<Func<TEntity, bool>> CreateFilterExpression<TEntity>()
+    {
+        //var expression = base.CreateFilterExpression<TEntity>();
+        //if (typeof(Iarchivable).IsAssignableFrom(typeof(TEntity)))
+        //{
+        //    Expression<Func<TEntity, bool>> archiveFilter = e => !IsArchiveFilterEnabled || !EF.Property<bool>(e, "IsArchived");
+        //    expression = expression == null ? archiveFilter : CombineExpressions(expression,archiveFilter); 
+        //}
+        //return expression;
+
+        return base.CreateFilterExpression<TEntity>();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
