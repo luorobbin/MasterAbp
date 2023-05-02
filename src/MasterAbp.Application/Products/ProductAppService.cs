@@ -90,6 +90,7 @@ namespace MasterAbp.Products
         public async Task<PagedResultDto<ProductDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
             var userName = CurrentUser.Name;
+            var localMessage = L["ProductDeletionConfirmationMessage","testName"];
 
             //禁用软删除过滤
             using (_dataFilter.Disable<ISoftDelete>())
