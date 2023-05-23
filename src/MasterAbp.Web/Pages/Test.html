@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>测试</title>
+</head>
+<body>
+
+    <div id="content"></div>
+
+    <script>
+        var div = document.getElementById("content")
+        var url = "https://localhost:44356/api/app/product2/text"
+        var client = new XMLHttpRequest()
+        client.open("POST", url)
+        client.onprogress = function (progressEvent) {
+            div.innerText = progressEvent.target.responseText
+        }
+        client.onloadend = function (progressEvent) {
+            div.append("END")
+        }
+        client.send()
+
+    </script>
+</body>
+</html>

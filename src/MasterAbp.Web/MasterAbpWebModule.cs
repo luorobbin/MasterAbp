@@ -40,6 +40,13 @@ using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Caching.StackExchangeRedis;
 using StackExchange.Redis;
 using Microsoft.AspNetCore.DataProtection;
+using Volo.Abp.AspNetCore.ExceptionHandling;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
+using System.Collections.Generic;
+using Autofac.Core;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace MasterAbp.Web;
 
@@ -89,7 +96,7 @@ public class MasterAbpWebModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
-        ConfigureAuthentication(context);
+        ConfigureAuthentication(context, configuration);
         ConfigureUrls(configuration);
         ConfigureBundles();
         ConfigureAutoMapper();
@@ -98,11 +105,41 @@ public class MasterAbpWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+        Configure<AbpExceptionHandlingOptions>(options =>
+        {
+            options.SendExceptionsDetailsToClients = true;
+        });
     }
 
-    private void ConfigureAuthentication(ServiceConfigurationContext context)
+    private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
     {
-        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        //context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        var Issurer = "JWTBearer.Auth";  //发行人
+        var Audience = "api.auth";       //受众人
+        var secretCredentials = "q2xiARx$4x3TKqBJmasterapbtestluorobbin";   //密钥
+        
+        context.Services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(o => {
+            o.TokenValidationParameters = new TokenValidationParameters
+            {
+                //是否验证发行人
+                ValidateIssuer = true,
+                ValidIssuer = Issurer,//发行人
+                //是否验证受众人
+                ValidateAudience = true,
+                ValidAudience = Audience,//受众人
+                //是否验证密钥
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretCredentials)),
+
+                ValidateLifetime = true, //验证生命周期
+                RequireExpirationTime = true, //过期时间
+            };
+        });
     }
 
     private void ConfigureUrls(IConfiguration configuration)
@@ -181,6 +218,40 @@ public class MasterAbpWebModule : AbpModule
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "MasterAbp API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+
+                //Bearer 的scheme定义
+                var securityScheme = new OpenApiSecurityScheme()
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    //参数添加在头部
+                    In = ParameterLocation.Header,
+                    //使用Authorize头部
+                    Type = SecuritySchemeType.Http,
+                    //内容为以 bearer开头
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                };
+
+                //把所有方法配置为增加bearer头部信息
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "bearerAuth"
+                                }
+                            },
+                            new string[] {}
+                    }
+                };
+
+                //注册到swagger中
+                options.AddSecurityDefinition("bearerAuth", securityScheme);
+                options.AddSecurityRequirement(securityRequirement);
             }
         );
     }
@@ -205,7 +276,11 @@ public class MasterAbpWebModule : AbpModule
         app.UseCorrelationId();
         app.UseStaticFiles();
         app.UseRouting();
+        // 1.认证
         app.UseAuthentication();
+        // 2.授权
+        app.UseAuthorization();
+
         app.UseAbpOpenIddictValidation();
 
         if (MultiTenancyConsts.IsEnabled)
