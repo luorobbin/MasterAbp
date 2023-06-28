@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Volo.Abp.Account;
+using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.FeatureManagement;
@@ -40,6 +41,21 @@ public class MasterAbpApplicationModule : AbpModule
         Configure<AbpDistributedCacheOptions>(options =>
         {
             options.GlobalCacheEntryOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+        });
+
+        Configure<AbpSignalROptions>(options =>
+        {
+            options.Hubs.AddOrUpdate(
+            typeof(MessagingHub),
+            config => //Additional configuration
+            {
+                config.RoutePattern = "/the-messaging-hub";
+                config.ConfigureActions.Add(hubOptions =>
+                {
+                    hubOptions.LongPolling.PollTimeout =
+                        TimeSpan.FromSeconds(30);
+                });
+            });
         });
     }
 }
