@@ -9,5 +9,9 @@ namespace Payment;
 )]
 public class PaymentDomainModule : AbpModule
 {
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        base.ConfigureServices(context);
+    }
 
 }

@@ -47,6 +47,7 @@ using System.Collections.Generic;
 using Autofac.Core;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Payment.Web;
 
 namespace MasterAbp.Web;
 
@@ -62,7 +63,8 @@ namespace MasterAbp.Web;
     typeof(AbpTenantManagementWebModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpCachingStackExchangeRedisModule)
+    typeof(AbpCachingStackExchangeRedisModule),
+    typeof(PaymentWebModule)
     )]
 public class MasterAbpWebModule : AbpModule
 {

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MasterAbp.Domain.Shared\MasterAbp.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\modules\payment\src\Payment.Domain\Payment.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

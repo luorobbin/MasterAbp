@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Account;
+﻿using Payment;
+using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -17,7 +18,8 @@ namespace MasterAbp;
     typeof(AbpPermissionManagementApplicationContractsModule),
     typeof(AbpSettingManagementApplicationContractsModule),
     typeof(AbpTenantManagementApplicationContractsModule),
-    typeof(AbpObjectExtendingModule)
+    typeof(AbpObjectExtendingModule),
+    typeof(PaymentApplicationContractsModule)
 )]
 public class MasterAbpApplicationContractsModule : AbpModule
 {

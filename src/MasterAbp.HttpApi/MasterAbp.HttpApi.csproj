@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MasterAbp.Application.Contracts\MasterAbp.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\modules\payment\src\Payment.HttpApi\Payment.HttpApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

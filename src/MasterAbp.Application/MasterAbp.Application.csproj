@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MasterAbp.Domain\MasterAbp.Domain.csproj" />
     <ProjectReference Include="..\MasterAbp.Application.Contracts\MasterAbp.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\modules\payment\src\Payment.Application\Payment.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

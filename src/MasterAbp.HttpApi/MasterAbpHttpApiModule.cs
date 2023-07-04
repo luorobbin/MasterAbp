@@ -1,5 +1,6 @@
 ﻿using Localization.Resources.AbpUi;
 using MasterAbp.Localization;
+using Payment;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -18,7 +19,8 @@ namespace MasterAbp;
     typeof(AbpPermissionManagementHttpApiModule),
     typeof(AbpTenantManagementHttpApiModule),
     typeof(AbpFeatureManagementHttpApiModule),
-    typeof(AbpSettingManagementHttpApiModule)
+    typeof(AbpSettingManagementHttpApiModule),
+    typeof(PaymentHttpApiModule)
     )]
 public class MasterAbpHttpApiModule : AbpModule
 {

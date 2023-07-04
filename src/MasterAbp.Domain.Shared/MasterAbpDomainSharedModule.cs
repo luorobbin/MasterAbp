@@ -1,4 +1,5 @@
 ﻿using MasterAbp.Localization;
+using Payment;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -23,7 +24,8 @@ namespace MasterAbp;
     typeof(AbpOpenIddictDomainSharedModule),
     typeof(AbpPermissionManagementDomainSharedModule),
     typeof(AbpSettingManagementDomainSharedModule),
-    typeof(AbpTenantManagementDomainSharedModule)    
+    typeof(AbpTenantManagementDomainSharedModule),
+     typeof(PaymentDomainSharedModule)
     )]
 public class MasterAbpDomainSharedModule : AbpModule
 {

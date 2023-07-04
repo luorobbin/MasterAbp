@@ -1,5 +1,6 @@
 ﻿using MasterAbp.Options;
 using Microsoft.Extensions.DependencyInjection;
+using Payment;
 using System;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.SignalR;
@@ -24,7 +25,8 @@ namespace MasterAbp;
     typeof(AbpTenantManagementApplicationModule),
     typeof(AbpFeatureManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule),
-    typeof(AbpFluentValidationModule)
+    typeof(AbpFluentValidationModule),
+    typeof(PaymentApplicationModule)
     )]
 public class MasterAbpApplicationModule : AbpModule
 {
