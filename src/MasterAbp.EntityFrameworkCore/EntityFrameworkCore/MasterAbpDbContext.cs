@@ -3,6 +3,7 @@ using MasterAbp.Forms;
 using MasterAbp.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Payment.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -106,6 +107,8 @@ public class MasterAbpDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
+
+        builder.ConfigurePayment();
 
         /* Configure your own tables/entities inside here */
 

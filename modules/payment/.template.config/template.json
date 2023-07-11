@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+		"author": "Robin", 
+    "classifications": [ "modules" ], 
+    "name": "modulesDemo", 
+    "identity": "modulesTemplate", 
+    "shortName": "mymodules", 
+    "tags": {
+      "language": "C#" ,
+      "type":"project"
+    },
+    "sourceName": "mymodules",  
+    "preferNameDirectory": true  
+}
