@@ -31,7 +31,9 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
-                .UseSerilog();
+                .UseSerilog((context, services, configuration) => configuration
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services));
             await builder.AddApplicationAsync<MasterAbpWebModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
