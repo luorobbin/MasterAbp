@@ -48,6 +48,7 @@ using Autofac.Core;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Payment.Web;
+using Serilog;
 
 namespace MasterAbp.Web;
 
@@ -282,6 +283,9 @@ public class MasterAbpWebModule : AbpModule
         app.UseAuthentication();
         // 2.授权
         app.UseAuthorization();
+
+        // 使用Serilog记录Request
+        //app.UseSerilogRequestLogging();
 
         app.UseAbpOpenIddictValidation();
 
