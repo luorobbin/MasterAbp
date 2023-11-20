@@ -25,4 +25,20 @@
     <Content Remove="**\*generate-proxy.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientProxies\app-generate-proxy.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientProxies\app-generate-proxy.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientProxies\app-generate-proxy.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
