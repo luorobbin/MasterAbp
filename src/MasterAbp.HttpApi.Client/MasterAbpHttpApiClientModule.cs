@@ -11,7 +11,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace MasterAbp;
 
 [DependsOn(
-    typeof(MasterAbpApplicationContractsModule),
+    //typeof(MasterAbpApplicationContractsModule),
     typeof(AbpAccountHttpApiClientModule),
     typeof(AbpIdentityHttpApiClientModule),
     typeof(AbpPermissionManagementHttpApiClientModule),
@@ -25,10 +25,10 @@ public class MasterAbpHttpApiClientModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddHttpClientProxies(
-            typeof(MasterAbpApplicationContractsModule).Assembly,
-            RemoteServiceName
-        );
+        //context.Services.AddHttpClientProxies(
+        //    typeof(MasterAbpApplicationContractsModule).Assembly,
+        //    RemoteServiceName
+        //);
 
         Configure<AbpVirtualFileSystemOptions>(options =>
         {

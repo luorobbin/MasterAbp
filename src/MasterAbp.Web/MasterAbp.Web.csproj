@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\modules\payment\src\Payment.Web\Payment.Web.csproj" />
+    <ProjectReference Include="..\MasterAbp.Application\MasterAbp.Application.csproj" />
+    <ProjectReference Include="..\MasterAbp.HttpApi\MasterAbp.HttpApi.csproj" />
   </ItemGroup>
   
   <ItemGroup>
@@ -48,8 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MasterAbp.Application\MasterAbp.Application.csproj" />
-    <ProjectReference Include="..\MasterAbp.HttpApi\MasterAbp.HttpApi.csproj" />
     <ProjectReference Include="..\MasterAbp.EntityFrameworkCore\MasterAbp.EntityFrameworkCore.csproj" />
     <PackageReference Include="Volo.Abp.Autofac" Version="7.0.2" />
     <PackageReference Include="Volo.Abp.Swashbuckle" Version="7.0.2" />

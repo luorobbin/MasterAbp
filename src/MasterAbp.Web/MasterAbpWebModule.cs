@@ -55,6 +55,7 @@ namespace MasterAbp.Web;
 [DependsOn(
     typeof(MasterAbpHttpApiModule),
     typeof(MasterAbpApplicationModule),
+    //typeof(MasterAbpHttpApiClientModule),
     typeof(MasterAbpEntityFrameworkCoreModule),
     typeof(AbpAutofacModule),
     typeof(AbpIdentityWebModule),
@@ -79,6 +80,7 @@ public class MasterAbpWebModule : AbpModule
                 typeof(MasterAbpDomainSharedModule).Assembly,
                 typeof(MasterAbpApplicationModule).Assembly,
                 typeof(MasterAbpApplicationContractsModule).Assembly,
+                //typeof(MasterAbpHttpApiClientModule).Assembly,
                 typeof(MasterAbpWebModule).Assembly
             );
         });

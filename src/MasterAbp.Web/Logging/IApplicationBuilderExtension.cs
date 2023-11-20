@@ -21,6 +21,7 @@
  *----------------------------------------------------------------*/
 #endregion << 版 本 注 释 >>
 
+using MasterAbp.WEb.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
@@ -40,14 +41,14 @@ namespace MasterAbp.Web.Logging
         {
             return builder.UseMiddleware<RequestResponseLoggingMiddleware>();
         }
-         public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder builder, ExceptionHandlerOptions options)
-            => builder.UseMiddleware<RequestResponseLoggingMiddleware>(Options.Create(options));
+         //public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder builder, ExceptionHandlerOptions options)
+         //   => builder.UseMiddleware<RequestResponseLoggingMiddleware>(Options.Create(options));
 
-        public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder builder, string errorHandlingPath)
-            => builder.UseExceptionHandler(new ExceptionHandlerOptions
-            {
-                ExceptionHandlingPath = new PathString(errorHandlingPath)
-            });
+        //public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder builder, string errorHandlingPath)
+        //    => builder.UseExceptionHandler(new ExceptionHandlerOptions
+        //    {
+        //        ExceptionHandlingPath = new PathString(errorHandlingPath)
+        //    });
 
         public static IApplicationBuilder UseExceptionHandlerMiddleware(this IApplicationBuilder builder)
         {
